@@ -3,6 +3,7 @@ import multer from "multer";
 import cors from "cors";
 import path from "path";
 import SharpResize from "utils/resize";
+require('dotenv').config()
 
 const app = express();
 app.use(cors());
@@ -36,8 +37,7 @@ app.post("/upload", upload.single("img"), (req, res) => {
   );
 });
 
-// Start the server
-const port = 8080;
-app.listen(port, () => {
-  console.log(`Server started on port ${port}`);
-});
+const port = process.env.SERVER_PORT;
+app.listen(port, () =>
+  console.log(`Server started on port ${port}`)
+);

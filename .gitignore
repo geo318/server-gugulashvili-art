@@ -1,5 +1,7 @@
 node_modules
 build
 builduploads
+public
+uploads
 package-lock.json
 .env
