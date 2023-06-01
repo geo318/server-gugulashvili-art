@@ -46,15 +46,12 @@ export default class SharpResize {
     format?: typeof this.ext
   ) {
     this.subFolder = subFolder || this.index.toString()
-    const dir = `./${this.rootFolder}/${this.subFolder}`
+    const dir = `./${this.rootFolder}/${this.subFolder || this.index}`
 
     if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true })
 
     this.reformat(format, width, height).toFile(
-      path.join(
-        `./${this.rootFolder}/${subFolder || this.subFolder}`,
-        this.name
-      ),
+      path.join(dir, this.name),
       (err) => {
         if (err) return `Error resizing image ${err}`
       }
