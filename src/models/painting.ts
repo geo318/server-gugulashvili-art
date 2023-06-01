@@ -1,5 +1,5 @@
-import mongoose from "mongoose";
-const { Schema } = mongoose;
+import mongoose from 'mongoose'
+const { Schema } = mongoose
 
 const paintingSchema = new mongoose.Schema(
   {
@@ -7,16 +7,12 @@ const paintingSchema = new mongoose.Schema(
     size: Schema.Types.String,
     description: Schema.Types.String,
     year: Schema.Types.Number,
-    images: [
-      {
-        image: Schema.Types.String,
-        thumbnail: Schema.Types.String,
-      },
-    ],
+    image: {
+      fullSize: Schema.Types.String,
+      thumbnail: Schema.Types.String,
+    },
   },
   { versionKey: false, timestamps: true }
-);
+)
 
-const Painting = mongoose.model("painting", paintingSchema);
-
-export default Painting;
+export const Painting = mongoose.model('painting', paintingSchema)

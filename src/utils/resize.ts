@@ -1,38 +1,42 @@
-import sharp, { AvailableFormatInfo, FormatEnum } from "sharp";
-import path from "path";
+import sharp, { AvailableFormatInfo, FormatEnum } from 'sharp'
+import path from 'path'
+import fs from 'fs'
 
-class SharpResize {
+export default class SharpResize {
   constructor(
     file: Express.Multer.File,
     rootFolder: string,
+    ext?: keyof FormatEnum | AvailableFormatInfo,
     subFolder?: string,
     name?: string,
     width?: number,
-    height?: number,
-    ext?: keyof FormatEnum | AvailableFormatInfo
+    height?: number
   ) {
-    this.file = file;
-    this.rootFolder = rootFolder;
-    this.subFolder = subFolder;
-    this.width = width;
-    this.height = height;
-    this.ext = ext;
-    this.name = name || this.file.originalname.trim().replace(/\s/g, "-");
+    this.file = file
+    this.rootFolder = rootFolder
+    this.subFolder = subFolder
+    this.width = width
+    this.height = height
+    this.ext = ext
+    this.name = name || this.file.originalname.trim().replace(/\s/g, '-')
+    this.index++
   }
 
   private sharper() {
-    return sharp(this.file.path);
+    return sharp(this.file.path)
   }
 
   resize(width?: number, height?: number) {
     return this.sharper().resize(
       this.width || width || 1000,
       this.height || height || null
-    );
+    )
   }
 
   reformat(format?: typeof this.ext, width?: number, height?: number) {
-    return this.resize(width, height).toFormat(format || this.ext || "webp");
+    return this.resize(width, height)
+      .toFormat(format || this.ext || 'webp')
+      .webp({ quality: 100, force: true })
   }
 
   save(
@@ -41,31 +45,36 @@ class SharpResize {
     height?: number,
     format?: typeof this.ext
   ) {
-    this.subFolder = subFolder;
+    this.subFolder = subFolder || this.index.toString()
+    const dir = `./${this.rootFolder}/${this.subFolder}`
+
+    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true })
+
     this.reformat(format, width, height).toFile(
       path.join(
-        `./${this.rootFolder}/${subFolder || this.subFolder || ""}`,
+        `./${this.rootFolder}/${subFolder || this.subFolder}`,
         this.name
       ),
       (err) => {
-        if (err) return `Error resizing image ${err}`;
+        if (err) return `Error resizing image ${err}`
       }
-    );
-    this.paths.push(`/${this.subFolder || ""}/${this.name}`);
+    )
+    this.paths[this.subFolder || this.index] = `/${this.subFolder}/${this.name}`
   }
 
   fullFilePath() {
-    return this.paths;
+    return this.paths
   }
 
-  private file;
-  private height;
-  private rootFolder;
-  private subFolder;
-  private width;
-  private ext;
-  private name;
-  private paths: string[] = [];
+  private file
+  private height
+  private rootFolder
+  private subFolder
+  private width
+  private ext
+  private name
+  private index: number = 0
+  private paths: {
+    [key: string | number]: string
+  } = {}
 }
-
-export default SharpResize;
