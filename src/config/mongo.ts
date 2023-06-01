@@ -19,9 +19,9 @@ const useAtlasMongoDbUrl = () => {
   return `${MONGO_PROTOCOL}://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_HOST}/${MONGO_DATABASE}`
 }
 
-export const connect = async () => {
+const connect = async () => {
   try {
-    const mongooseURL = false ? useLocalMongoDbUrl() : useAtlasMongoDbUrl()
+    const mongooseURL = isConnectedToLocalDatabase ? useLocalMongoDbUrl() : useAtlasMongoDbUrl()
 
     return mongoose.connect(
       'mongodb+srv://george:L1o9m9a3@claster0.z0yuylp.mongodb.net/paintings?retryWrites=true&w=majority'
@@ -30,3 +30,5 @@ export const connect = async () => {
     throw new Error(err.message)
   }
 }
+
+export default connect
