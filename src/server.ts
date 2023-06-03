@@ -4,11 +4,11 @@ import { paintingRouter } from 'routes'
 require('config').connectMongo()
 require('dotenv').config()
 
-const app = express()
-app.use(cors())
-app.use(express.static('public/uploads'))
+const server = express()
+server.use(cors())
+server.use(express.static('public/uploads'))
 
-app.use(paintingRouter)
+server.use(paintingRouter)
 
 const { SERVER_PORT: port } = process.env
-app.listen(port, () => console.log(`Server started on port ${port}`))
+server.listen(port, () => console.log(`Server started on port ${port}`))
