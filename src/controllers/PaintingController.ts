@@ -16,11 +16,11 @@ export const addPainting = async (
   const imagePaths = addNewImage(image)
 
   try {
-    const painting = await Painting.create({
+    await Painting.create({
       image: imagePaths,
       ...req.body,
     })
-    res.send(painting)
+    res.status(201).send('painting added')
   } catch (e) {
     next(e)
   }
@@ -53,13 +53,13 @@ export const updatePainting = async (
 
   const imagePaths = image && addNewImage(image)
   try {
-    const painting = await Painting.find({ paintingId }).updateOne({
+    const painting = await Painting.findByIdAndUpdate(paintingId, {
       ...req.body,
       ...(imagePaths && { image: imagePaths }),
     })
     !painting && res.status(422).json({ message: 'Painting not found' })
 
-    res.send(painting)
+    res.status(201).send('painting updated')
   } catch (e) {
     next(e)
   }
@@ -71,12 +71,13 @@ export const deletePainting = async (
   next: NextFunction
 ) => {
   const { paintingId } = req.params
-  checkIdIsValid(paintingId, res)
 
+  checkIdIsValid(paintingId, res)
   try {
-    const painting = await Painting.deleteOne({ id: paintingId })
+    const painting = await Painting.findByIdAndDelete(paintingId)
+
     !painting && res.status(422).json({ message: 'Painting not found' })
-    res.send('painting deleted')
+    res.status(200).send('painting deleted')
   } catch (e) {
     next(e)
   }

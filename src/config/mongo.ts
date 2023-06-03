@@ -1,31 +1,31 @@
 import mongoose from 'mongoose'
+require('dotenv').config()
 
-const isConnectedToLocalDatabase = process.env.MONGO_PROTOCOL === 'localhost'
+const {
+  MONGO_PROTOCOL,
+  MONGO_HOST,
+  MONGO_PORT,
+  MONGO_DATABASE,
+  MONGO_USER,
+  MONGO_PASSWORD,
+  MONGO_OPTIONS,
+} = process.env
 
-const useLocalMongoDbUrl = () => {
-  const { MONGO_PROTOCOL, MONGO_HOST, MONGO_PORT, MONGO_DATABASE } = process.env
-  return `${MONGO_PROTOCOL}://${MONGO_HOST}:${MONGO_PORT}/${MONGO_DATABASE}`
-}
+const isConnectedToLocalDatabase = MONGO_PROTOCOL === 'localhost'
 
-const useAtlasMongoDbUrl = () => {
-  const {
-    MONGO_PROTOCOL,
-    MONGO_USER,
-    MONGO_PASSWORD,
-    MONGO_HOST,
-    MONGO_DATABASE,
-  } = process.env
+const useLocalMongoDbUrl = () =>
+  `${MONGO_PROTOCOL}://${MONGO_HOST}:${MONGO_PORT}/${MONGO_DATABASE}`
 
-  return `${MONGO_PROTOCOL}://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_HOST}/${MONGO_DATABASE}`
-}
+const useAtlasMongoDbUrl = () =>
+  `${MONGO_PROTOCOL}://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_HOST}/${MONGO_DATABASE}?${MONGO_OPTIONS}`
 
 const connect = async () => {
   try {
-    const mongooseURL = isConnectedToLocalDatabase ? useLocalMongoDbUrl() : useAtlasMongoDbUrl()
+    const mongooseURL = isConnectedToLocalDatabase
+      ? useLocalMongoDbUrl()
+      : useAtlasMongoDbUrl()
 
-    return mongoose.connect(
-      'mongodb+srv://george:L1o9m9a3@claster0.z0yuylp.mongodb.net/paintings?retryWrites=true&w=majority'
-    )
+    return mongoose.connect(mongooseURL)
   } catch (err: any) {
     throw new Error(err.message)
   }
