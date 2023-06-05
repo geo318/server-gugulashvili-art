@@ -6,7 +6,9 @@ import {
   deletePainting,
 } from 'controllers'
 import multer from 'multer'
+
 import { isAuth } from 'middleware'
+
 
 const storage = multer.diskStorage({
   destination: './public/originals/',
@@ -16,6 +18,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage })
 
 const router = express.Router()
+
 
 router.get('/paintings', getPaintings)
 router.post('/upload', isAuth, upload.single('img'), addPainting)

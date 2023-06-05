@@ -14,5 +14,6 @@ server.use(express.static('public/uploads'))
 server.use(paintingRouter)
 server.use(authRouter)
 
+
 const { SERVER_PORT: port } = process.env
 server.listen(port, () => console.log(`Server started on port ${port}`))
