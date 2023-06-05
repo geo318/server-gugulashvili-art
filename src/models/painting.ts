@@ -1,18 +1,29 @@
 import mongoose from 'mongoose'
-const { Schema } = mongoose
 
 const paintingSchema = new mongoose.Schema(
   {
-    name: Schema.Types.String,
-    size: Schema.Types.String,
-    description: Schema.Types.String,
-    year: Schema.Types.Number,
+    name: {
+      type: String,
+      required: true,
+    },
+    size: {
+      type: String,
+      required: true,
+    },
+    description: {
+      type: String,
+      required: true,
+    },
+    year: {
+      type: Number,
+      required: true,
+    },
     image: {
-      fullSize: Schema.Types.String,
-      thumbnail: Schema.Types.String,
+      fullSize: { type: String, required: true },
+      thumbnail: { type: String, required: true },
     },
   },
   { versionKey: false, timestamps: true }
 )
 
-export const Painting = mongoose.model('painting', paintingSchema)
+export const Painting = mongoose.model('paintings', paintingSchema)
