@@ -16,4 +16,4 @@ server.use(authRouter)
 
 
 const { SERVER_PORT: port } = process.env
-server.listen(port, () => console.log(`Server started on port ${port}`))
+server.listen(port || 8080, () => console.log(`Server started on port ${port}`))
