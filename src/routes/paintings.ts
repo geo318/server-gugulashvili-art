@@ -9,16 +9,17 @@ import multer from 'multer'
 
 import { isAuth } from 'middleware'
 
-
 const storage = multer.diskStorage({
   destination: './public/originals/',
   filename: (_, file, cb) =>
     cb(null, `${Date.now()}-${file.originalname.trim().replace(/\s/g, '-')}`),
 })
-const upload = multer({ storage: storage })
+const upload = multer({
+  storage: storage,
+  limits: { fileSize: 5 * 1024 * 1024 },
+})
 
 const router = express.Router()
-
 
 router.get('/paintings', getPaintings)
 router.post('/upload', isAuth, upload.single('img'), addPainting)
