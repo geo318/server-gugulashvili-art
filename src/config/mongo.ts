@@ -11,7 +11,7 @@ const {
   MONGO_OPTIONS,
 } = process.env
 
-const isConnectedToLocalDatabase = MONGO_PROTOCOL === 'localhost'
+const isConnectedToLocalDatabase = MONGO_PROTOCOL === 'mongodb'
 
 const useLocalMongoDbUrl = () =>
   `${MONGO_PROTOCOL}://${MONGO_HOST}:${MONGO_PORT}/${MONGO_DATABASE}`
@@ -25,7 +25,7 @@ const connect = async () => {
       ? useLocalMongoDbUrl()
       : useAtlasMongoDbUrl()
 
-    return mongoose.connect(mongooseURL)
+    return await mongoose.connect(mongooseURL)
   } catch (err: any) {
     throw new Error(err.message)
   }
