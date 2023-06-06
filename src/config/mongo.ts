@@ -1,5 +1,6 @@
 import mongoose from 'mongoose'
-require('dotenv').config()
+import path from 'path'
+require('dotenv').config({ path: path.resolve(__dirname, '../.env') })
 
 const {
   MONGO_PROTOCOL,
@@ -19,13 +20,13 @@ const useLocalMongoDbUrl = () =>
 const useAtlasMongoDbUrl = () =>
   `${MONGO_PROTOCOL}://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_HOST}/${MONGO_DATABASE}?${MONGO_OPTIONS}`
 
+  const mongooseURL = isConnectedToLocalDatabase
+  ? useLocalMongoDbUrl()
+  : useAtlasMongoDbUrl()
+  
 const connect = async () => {
   try {
-    const mongooseURL = isConnectedToLocalDatabase
-      ? useLocalMongoDbUrl()
-      : useAtlasMongoDbUrl()
-
-    return await mongoose.connect(mongooseURL)
+    await mongoose.connect(mongooseURL)
   } catch (err: any) {
     throw new Error(err.message)
   }
