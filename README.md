@@ -1,6 +1,8 @@
 # Gugulashvili Art Api
 
 Welcome to the Gugulashvili Art Backend! This backend server is built with Express.js and utilizes MongoDB Atlas for data storage. It provides an API for managing artwork data and image uploads for the Gugulashvili Art website.
+See frontend: [Gugulashvili Art Frontend](https://github.com/geo318/zuragugulashvili-art)
+
 
 ## Table of Contents
 
@@ -90,6 +92,6 @@ The Gugulashvili Art Backend provides the following API routes:
 Refer to the source code in the `routes` directory for detailed route implementations.
 
 ---
-*This README provides a basic template for the Gugulashvili Art Backend.*
+
 
 
