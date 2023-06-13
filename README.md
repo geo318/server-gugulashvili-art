@@ -11,8 +11,6 @@ See frontend: [Gugulashvili Art Frontend](https://github.com/geo318/zuragugulash
 - [Technologies](#technologies)
 - [Project Structure](#project-structure)
 - [API Routes](#api-routes)
-- [Contributing](#contributing)
-- [License](#license)
 
 ## Installation
 
@@ -92,6 +90,6 @@ The Gugulashvili Art Backend provides the following API routes:
 Refer to the source code in the `routes` directory for detailed route implementations.
 
 ---
-
+*George Lomidze*
 
 
